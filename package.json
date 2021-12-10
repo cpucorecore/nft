@@ -1,0 +1,23 @@
+{
+  "name": "nft",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpucorecore/nft.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpucorecore/nft/issues"
+  },
+  "homepage": "https://github.com/cpucorecore/nft#readme",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.4.0"
+  }
+}
