@@ -1,5 +1,5 @@
-const ERC721PresetMinterPauserAutoId = artifacts.require("node_modules/@openzeppelin/contracts/build/ERC721PresetMinterPauserAutoId");
+const Wines = artifacts.require("node_modules/@openzeppelin/contracts/build/Wines");
 
 module.exports = function(deployer) {
-    deployer.deploy(ERC721PresetMinterPauserAutoId, "My NFT","NFT", "https://my-server/nftdemo/tokens/");
+    deployer.deploy(Wines, "My NFT","NFT", "https://my-server/nftdemo/tokens/");
 };
