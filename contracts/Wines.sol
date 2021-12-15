@@ -1,9 +1,9 @@
-pragma solidity ^0.8.0;
+pragma solidity 0.6.2;
 
-import "./ERC721URIStorage.sol";
+import "./ERC721.sol";
 
-contract Wines is ERC721URIStorage {
-    constructor(string memory name, string memory symbol, string memory baseURI) ERC721(name, symbol) {}
+contract Wines is ERC721 {
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) public {}
 
     function issueWineNFT(address to, uint256 tokenId, string memory tokenURI) public
     {
