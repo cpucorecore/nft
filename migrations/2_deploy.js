@@ -1,5 +1,5 @@
-const Wines = artifacts.require("node_modules/@openzeppelin/contracts/build/Wines");
+const Wines = artifacts.require("build/contracts/NFT");
 
 module.exports = function(deployer) {
-    deployer.deploy(Wines, "My NFT","NFT", "https://my-server/nftdemo/tokens/");
+    deployer.deploy(Wines, "NFT","NFT");
 };
