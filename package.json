@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/cpucorecore/nft#readme",
   "devDependencies": {
-    "@openzeppelin/contracts": "3.4.1"
+    "@openzeppelin/contracts": "3.4.1",
+    "truffle-assertions": "^0.9.2"
   }
 }

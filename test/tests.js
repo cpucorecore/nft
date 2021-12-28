@@ -1,3 +1,4 @@
+const truffleAssert = require("truffle-assertions");
 const NFT = artifacts.require("NFT");
 
 contract("NFT", accounts => {
@@ -87,18 +88,14 @@ contract("NFT", accounts => {
                     0,
                     "wrong totalSupply"
                 )
-                let owner;
-                try {
-                    owner = nft.ownerOf.call(1);
-                }catch(err) {
-                    assert.equal(
-                        err,
-                        "ErReturned error: VM Exception while processing transaction: revert ERC721: owner query for nonexistent token",
-                        "should be err"
-                    )
-                }
-                return owner;
+            })
+            .then(async () => {
+                await truffleAssert.fails(
+                    nft.ownerOf(1),
+                    truffleAssert.ErrorType.REVERT,
+                    "Returned error: VM Exception while processing transaction: revert ERC721: owner query for nonexistent token",
+                    "should be error when query a non existed tokenId"
+                );
             })
     })
-
 })
