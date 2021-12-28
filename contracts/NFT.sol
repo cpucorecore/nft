@@ -62,14 +62,14 @@ contract NFT is ERC721 {
         require(0 != _maxTransferCount && tts.transferCount <= _maxTransferCount, string(abi.encodePacked("out of maxTransferCount=", _maxTransferCount.toString())));
 
         require(
-            (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) > _transferInterval),
+            (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) >= _transferInterval),
             string(abi.encodePacked(
                 "now(",
                 now.toString(),
                 ")-lastTransferTimestamp(",
                 tts.lastTransferTimestamp.toString(),
-                "<=transferInterval(",
-                _transferInterval,
+                ")<=transferInterval(",
+                _transferInterval.toString(),
                 ")"
             ))
         );

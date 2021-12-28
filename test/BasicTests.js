@@ -1,7 +1,9 @@
 const truffleAssert = require("truffle-assertions");
+
 const NFT = artifacts.require("NFT");
 
 contract("NFT", accounts => {
+    let baseTokenURI = 'http://my_test_nft.org/tokens/';
 
     it("total supply should be 0", () =>
         NFT.deployed()
@@ -41,7 +43,7 @@ contract("NFT", accounts => {
 
     it("after mint 1 nft then burn 1 nft", () => {
         let nft;
-        let token1URI = "http://mytestnft.org/tokens/1";
+        let token1URI = baseTokenURI + '1';
 
         return NFT.deployed()
             .then(instance => {
