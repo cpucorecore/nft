@@ -6,9 +6,9 @@ import "./Strings.sol";
 contract NFT is ERC721 {
     using Strings for uint256;
 
-    bool private issueTransferAllowed;
-    uint256 private maxTransferCount;
-    uint256 private transferInterval;
+    bool private _issueTransferAllowed;
+    uint256 private _maxTransferCount;
+    uint256 private _transferInterval;
 
     struct TokenTransferState {
         uint256 lastTransferTimestamp;
@@ -16,9 +16,13 @@ contract NFT is ERC721 {
         bool isValid;
     }
 
-    mapping(uint256 => TokenTransferState) private tokenTransferStates;
+    mapping(uint256 => TokenTransferState) private _tokenTransferStates;
 
-    constructor(string memory name, string memory symbol) ERC721(name, symbol) public {}
+    constructor(string memory name_, string memory symbol_, bool issueTransferAllowed_, uint256 maxTransferCount_, uint256 transferInterval_) ERC721(name_, symbol_) public {
+        _issueTransferAllowed = issueTransferAllowed_;
+        _maxTransferCount = maxTransferCount_;
+        _transferInterval = transferInterval_;
+    }
 
     function mintNFT(address to, uint256 tokenId, string memory tokenURI) public
     {
@@ -38,41 +42,41 @@ contract NFT is ERC721 {
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override {
         if (from == address(0)) { // mint
-            if (issueTransferAllowed) {
-                tokenTransferStates[tokenId] = TokenTransferState(0, 0, true);
+            if (_issueTransferAllowed) {
+                _tokenTransferStates[tokenId] = TokenTransferState(0, 0, true);
             } else {
-                tokenTransferStates[tokenId] = TokenTransferState(now, 0, true);
+                _tokenTransferStates[tokenId] = TokenTransferState(now, 0, true);
             }
         } else if(to == address(0)) { // burn
-            tokenTransferStates[tokenId].isValid = false;
-            delete tokenTransferStates[tokenId];
+            _tokenTransferStates[tokenId].isValid = false;
+            delete _tokenTransferStates[tokenId];
         } else { // transfer
             checkTokenTransferState(tokenId);
         }
     }
 
     function checkTokenTransferState(uint256 tokenId) public {
-        TokenTransferState memory tts = tokenTransferStates[tokenId];
+        TokenTransferState memory tts = _tokenTransferStates[tokenId];
 
         require(tts.isValid, string(abi.encodePacked("tokenId[", tokenId.toString(), "]'s TokenTransferState not exist")));
-        require(tts.transferCount <= maxTransferCount, string(abi.encodePacked("out of maxTransferCount=", maxTransferCount.toString())));
+        require(0 != _maxTransferCount && tts.transferCount <= _maxTransferCount, string(abi.encodePacked("out of maxTransferCount=", _maxTransferCount.toString())));
 
         require(
-            (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) > transferInterval),
+            (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) > _transferInterval),
             string(abi.encodePacked(
                 "now(",
                 now.toString(),
                 ")-lastTransferTimestamp(",
                 tts.lastTransferTimestamp.toString(),
                 "<=transferInterval(",
-                transferInterval,
+                _transferInterval,
                 ")"
             ))
         );
     }
 
     function updateTransferState(uint256 tokenId) private {
-        tokenTransferStates[tokenId].lastTransferTimestamp = now;
-        tokenTransferStates[tokenId].transferCount++;
+        _tokenTransferStates[tokenId].lastTransferTimestamp = now;
+        _tokenTransferStates[tokenId].transferCount++;
     }
 }
