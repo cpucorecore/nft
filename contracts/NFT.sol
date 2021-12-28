@@ -87,4 +87,40 @@ contract NFT is ERC721 {
         _tokenTransferStates[tokenId].lastTransferTimestamp = now;
         _tokenTransferStates[tokenId].transferCount++;
     }
+
+    function setIssueTransferAllowed(bool issueTransferAllowed_) public {
+        _issueTransferAllowed = issueTransferAllowed_;
+    }
+
+    function getIssueTransferAllowed() public view returns(bool) {
+        return _issueTransferAllowed;
+    }
+
+    function setMaxTransferCount(uint256 maxTransferCount_) public {
+        _maxTransferCount = maxTransferCount_;
+    }
+
+    function setMaxTransferCount() public view returns(uint256) {
+        return _maxTransferCount;
+    }
+
+    function setTransferInterval(uint256 transferInterval_) public {
+        _transferInterval = transferInterval_;
+    }
+
+    function getTransferInterval(uint256 transferInterval_) public view returns(uint256) {
+        return _transferInterval;
+    }
+
+    function getLastTransferTimestamp(uint256 tokenId) public view returns(uint256) {
+        TokenTransferState memory tts = _tokenTransferStates[tokenId];
+        require(tts.isValid, "tokenId not exist");
+        return tts.lastTransferTimestamp;
+    }
+
+    function getTransferCount(uint256 tokenId) public view returns(uint256) {
+        TokenTransferState memory tts = _tokenTransferStates[tokenId];
+        require(tts.isValid, "tokenId not exist");
+        return tts.transferCount;
+    }
 }
