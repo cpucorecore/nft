@@ -60,9 +60,9 @@ contract NFT is ERC721 {
 
         require(tts.isValid, string(abi.encodePacked("tokenId[", tokenId.toString(), "]'s TokenTransferState not exist")));
         require(
-            0 != _maxTransferCount && tts.transferCount < _maxTransferCount,
+            0 == _maxTransferCount || tts.transferCount < _maxTransferCount,
             string(abi.encodePacked(
-                "token has been transfer by ",
+                "Transfer too many: token has been transfer by ",
                 tts.transferCount.toString(),
                 " times, maxTransferCount=",
                 _maxTransferCount.toString())
@@ -70,15 +70,15 @@ contract NFT is ERC721 {
         );
 
         require(
-            (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) >= _transferInterval),
+            (0 == _transferInterval || (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) >= _transferInterval)),
             string(abi.encodePacked(
-                "now(",
+                "Transfer too fast: [now(",
                 now.toString(),
                 ")-lastTransferTimestamp(",
                 tts.lastTransferTimestamp.toString(),
                 ")<=transferInterval(",
                 _transferInterval.toString(),
-                ")"
+                ")]"
             ))
         );
     }
@@ -100,7 +100,7 @@ contract NFT is ERC721 {
         _maxTransferCount = maxTransferCount_;
     }
 
-    function setMaxTransferCount() public view returns(uint256) {
+    function getMaxTransferCount() public view returns(uint256) {
         return _maxTransferCount;
     }
 
