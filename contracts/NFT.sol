@@ -59,7 +59,15 @@ contract NFT is ERC721 {
         TokenTransferState memory tts = _tokenTransferStates[tokenId];
 
         require(tts.isValid, string(abi.encodePacked("tokenId[", tokenId.toString(), "]'s TokenTransferState not exist")));
-        require(0 != _maxTransferCount && tts.transferCount <= _maxTransferCount, string(abi.encodePacked("out of maxTransferCount=", _maxTransferCount.toString())));
+        require(
+            0 != _maxTransferCount && tts.transferCount < _maxTransferCount,
+            string(abi.encodePacked(
+                "token has been transfer by ",
+                tts.transferCount.toString(),
+                " times, maxTransferCount=",
+                _maxTransferCount.toString())
+            )
+        );
 
         require(
             (now > tts.lastTransferTimestamp) && ((now - tts.lastTransferTimestamp) >= _transferInterval),
