@@ -55,7 +55,7 @@ contract NFT is ERC721 {
         }
     }
 
-    function checkTokenTransferState(uint256 tokenId) public {
+    function checkTokenTransferState(uint256 tokenId) public view{
         TokenTransferState memory tts = _tokenTransferStates[tokenId];
 
         require(tts.isValid, string(abi.encodePacked("tokenId[", tokenId.toString(), "]'s TokenTransferState not exist")));
@@ -92,7 +92,7 @@ contract NFT is ERC721 {
         _issueTransferAllowed = issueTransferAllowed_;
     }
 
-    function getIssueTransferAllowed() public view returns(bool) {
+    function issueTransferAllowed() public view returns(bool) {
         return _issueTransferAllowed;
     }
 
@@ -100,7 +100,7 @@ contract NFT is ERC721 {
         _maxTransferCount = maxTransferCount_;
     }
 
-    function getMaxTransferCount() public view returns(uint256) {
+    function maxTransferCount() public view returns(uint256) {
         return _maxTransferCount;
     }
 
@@ -108,17 +108,17 @@ contract NFT is ERC721 {
         _transferInterval = transferInterval_;
     }
 
-    function getTransferInterval(uint256 transferInterval_) public view returns(uint256) {
+    function transferInterval() public view returns(uint256) {
         return _transferInterval;
     }
 
-    function getLastTransferTimestamp(uint256 tokenId) public view returns(uint256) {
+    function lastTransferTimestamp(uint256 tokenId) public view returns(uint256) {
         TokenTransferState memory tts = _tokenTransferStates[tokenId];
         require(tts.isValid, "tokenId not exist");
         return tts.lastTransferTimestamp;
     }
 
-    function getTransferCount(uint256 tokenId) public view returns(uint256) {
+    function transferCount(uint256 tokenId) public view returns(uint256) {
         TokenTransferState memory tts = _tokenTransferStates[tokenId];
         require(tts.isValid, "tokenId not exist");
         return tts.transferCount;
