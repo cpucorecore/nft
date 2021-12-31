@@ -48,7 +48,7 @@ contract("NFT", accounts => {
         return NFT.deployed()
             .then(instance => {
                 nft = instance;
-                return nft.mintNFT(accounts[0], 1, token1URI);
+                return nft.mintWithTokenURI(accounts[0], 1, token1URI);
             })
             .then(() => nft.totalSupply.call())
             .then(totalSupply => {
@@ -81,7 +81,7 @@ contract("NFT", accounts => {
                     1,
                     "wrong balance"
                 )
-                return nft.burnNFT(1)
+                return nft.burn(1)
             })
             .then(() => nft.totalSupply.call())
             .then(totalSupply => {

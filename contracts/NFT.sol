@@ -1,4 +1,5 @@
 pragma solidity >=0.6.0 <0.8.0;
+pragma experimental ABIEncoderV2;
 
 import "./ERC721.sol";
 import "./Strings.sol";
@@ -24,15 +25,30 @@ contract NFT is ERC721 {
         _transferInterval = transferInterval_;
     }
 
-    function mintNFT(address to, uint256 tokenId, string memory tokenURI) public
-    {
-        _mint(to, tokenId);
+    function mintWithTokenURI(address to, uint256 tokenId, string memory tokenURI) public {
+        _safeMint(to, tokenId);
         _setTokenURI(tokenId, tokenURI);
     }
 
-    function burnNFT(uint256 tokenId) public
-    {
+    function batchMintWithTokenURIs(address to, uint256 startTokenId, uint256 amount, string[] memory tokenURIs) public {
+        require(0 != amount, "amount can not be zero");
+        require(amount == tokenURIs.length, "the length of tokenURIs not equal amount");
+        uint256 i=0;
+        for(i=0; i<amount; i++) {
+            mintWithTokenURI(to, startTokenId+i, tokenURIs[i]);
+        }
+    }
+
+    function burn(uint256 tokenId) public {
         _burn(tokenId);
+    }
+
+    function exists(uint256 tokenId) public view returns (bool) {
+        return _exists(tokenId);
+    }
+
+    function setBaseURI(string memory baseURI_) public {
+        _setBaseURI(baseURI_);
     }
 
     function _transfer(address from, address to, uint256 tokenId) internal override {

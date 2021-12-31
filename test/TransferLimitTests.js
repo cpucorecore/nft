@@ -8,7 +8,7 @@ let transferInterval = 60;
 let tokenId = 1;
 
 contract("NFT", accounts => {
-    it("after mintNFT the tokenId of minted nft can transfer", () => {
+    it("after mintWithTokenURI the tokenId of minted nft can transfer", () => {
         let nft;
         let account_one = accounts[0];
         let account_two = accounts[1];
@@ -16,7 +16,7 @@ contract("NFT", accounts => {
         return NFT.deployed()
             .then(instance => {
                 nft = instance;
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(() => {
                 return nft.transferFrom(account_one, account_two, tokenId);
@@ -43,7 +43,7 @@ contract("NFT", accounts => {
         return NFT.deployed()
             .then(instance => {
                 nft = instance;
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(() => {
                 return nft.transferFrom(account_one, account_two, tokenId);
@@ -76,7 +76,7 @@ contract("NFT", accounts => {
         return NFT.deployed()
             .then(instance => {
                 nft = instance;
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(() => {
                 return nft.transferFrom(account_one, account_two, tokenId);
@@ -109,7 +109,7 @@ contract("NFT", accounts => {
         return NFT.deployed()
             .then(instance => {
                 nft = instance;
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(() => {
                 return nft.transferFrom(account_one, account_two, tokenId);
@@ -145,7 +145,7 @@ contract("NFT", accounts => {
                 return nft.setIssueTransferAllowed(false)
             })
             .then(() => {
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(async () => {
                 try {
@@ -169,7 +169,7 @@ contract("NFT", accounts => {
                 return nft.setMaxTransferCount(0);
             })
             then(() => {
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(() => {
                 return nft.transferFrom(account_one, account_two, tokenId);
@@ -212,7 +212,7 @@ contract("NFT", accounts => {
                 return nft.setTransferInterval(0);
             })
             .then(() => {
-                return nft.mintNFT(account_one, tokenId, baseTokenURI + tokenId);
+                return nft.mintWithTokenURI(account_one, tokenId, baseTokenURI + tokenId);
             })
             .then(() => {
                 return nft.transferFrom(account_one, account_two, tokenId);
