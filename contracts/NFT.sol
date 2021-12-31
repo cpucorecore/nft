@@ -3,9 +3,11 @@ pragma experimental ABIEncoderV2;
 
 import "./ERC721.sol";
 import "./Strings.sol";
+import "./SafeMath.sol";
 
 contract NFT is ERC721 {
     using Strings for uint256;
+    using SafeMath for uint256;
 
     bool private _issueTransferAllowed;
     uint256 private _maxTransferCount;
