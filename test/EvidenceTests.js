@@ -63,6 +63,24 @@ contract("Evidence", accounts => {
                     ext2,
                     "ext should be equal"
                 );
+
+                return evidence.getCount.call(1);
+            })
+            .then(count => {
+                assert.equal(
+                    count,
+                    2,
+                    "count err"
+                );
+
+                return evidence.getCount.call(20000);
+            })
+            .then(count => {
+                assert.equal(
+                    count,
+                    0,
+                    "count err"
+                );
             })
     })
 })

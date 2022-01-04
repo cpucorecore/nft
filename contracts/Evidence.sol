@@ -20,4 +20,8 @@ contract Evidence {
     function getExts(uint256 tokenId) public view returns (string[] memory) {
         return tokenId2exts[tokenId];
     }
+
+    function getCount(uint256 tokenId) public view returns (uint256) {
+        return tokenId2txIds[tokenId].length;
+    }
 }
