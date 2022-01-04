@@ -1,37 +1,23 @@
 pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "./SafeMath.sol";
-
 contract Evidence {
-    using SafeMath for uint256;
-
-    struct Receipt {
-        bytes32 txId;
-        string ext;
-    }
-
-    mapping(uint256 => Receipt[]) private tokenId2receipts;
-    mapping(uint256 => uint256) private tokenId2receiptsCount;
+    mapping(uint256 => bytes32[]) private tokenId2txIds;
+    mapping(uint256 => string[]) private tokenId2exts;
 
     function saveReceipt(uint256 tokenId, bytes32 txId, string memory ext) public {
-        Receipt[] storage receipts = tokenId2receipts[tokenId];
-        Receipt memory receipt = Receipt(txId, ext);
-        receipts.push(receipt);
-        tokenId2receiptsCount[tokenId] = tokenId2receiptsCount[tokenId].add(1);
+        bytes32[] storage txIds = tokenId2txIds[tokenId];
+        txIds.push(txId);
+
+        string[] storage exts = tokenId2exts[tokenId];
+        exts.push(ext);
     }
 
-    function getReceiptsCount(uint256 tokenId) public view returns (uint256) {
-        return tokenId2receiptsCount[tokenId];
+    function getTxIds(uint256 tokenId) public view returns (bytes32[] memory) {
+        return tokenId2txIds[tokenId];
     }
 
-    function getTxId(uint256 tokenId, uint256 index) public view returns (bytes32) {
-        require(index < tokenId2receiptsCount[tokenId], "index out of range");
-        return tokenId2receipts[tokenId][index].txId;
-    }
-
-    function getExt(uint256 tokenId, uint256 index) public view returns (string memory) {
-        require(index < tokenId2receiptsCount[tokenId], "index out of range");
-        return tokenId2receipts[tokenId][index].ext;
+    function getExts(uint256 tokenId) public view returns (string[] memory) {
+        return tokenId2exts[tokenId];
     }
 }
