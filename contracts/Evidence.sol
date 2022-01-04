@@ -1,7 +1,11 @@
 pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
+import "./SafeMath.sol";
+
 contract Evidence {
+    using SafeMath for uint256;
+
     struct Receipt {
         bytes32 txId;
         string ext;
@@ -14,7 +18,7 @@ contract Evidence {
         Receipt[] storage receipts = tokenId2receipts[tokenId];
         Receipt memory receipt = Receipt(txId, ext);
         receipts.push(receipt);
-        tokenId2receiptsCount[tokenId]++;
+        tokenId2receiptsCount[tokenId] = tokenId2receiptsCount[tokenId].add(1);
     }
 
     function getReceiptsCount(uint256 tokenId) public view returns (uint256) {
