@@ -37,7 +37,8 @@ contract NFT is ERC721 {
         require(amount == tokenURIs.length, "the length of tokenURIs not equal amount");
         uint256 i=0;
         for(i=0; i<amount; i++) {
-            mintWithTokenURI(to, startTokenId+i, tokenURIs[i]);
+            uint256 tokenId = startTokenId.add(i);
+            mintWithTokenURI(to, tokenId, tokenURIs[i]);
         }
     }
 
@@ -103,7 +104,7 @@ contract NFT is ERC721 {
 
     function updateTransferState(uint256 tokenId) private {
         _tokenTransferStates[tokenId].lastTransferTimestamp = now;
-        _tokenTransferStates[tokenId].transferCount++;
+        _tokenTransferStates[tokenId].transferCount = _tokenTransferStates[tokenId].transferCount.add(1);
     }
 
     function setIssueTransferAllowed(bool issueTransferAllowed_) public {
