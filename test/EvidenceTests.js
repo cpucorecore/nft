@@ -17,46 +17,38 @@ contract("Evidence", accounts => {
             .then(() => {
                 return evidence.saveReceipt(1, txId2, ext2);
             })
-            .then(() => evidence.getReceipt.call(1, 0))
+            .then(() => evidence.getTxId.call(1, 0))
             .then(value => {
-                let receipt = value.valueOf();
-
                 assert.equal(
-                    receipt.txId,
+                    value,
                     txId1,
                     "txId should be equal"
                 );
-
-                assert.equal(
-                    receipt.ext,
-                    ext1,
-                    "ext should be equal"
-                );
-
-                return evidence.getReceipt.call(1, 1);
-            })
-            .then(value => {
-                let receipt = value.valueOf();
-
-                assert.equal(
-                    receipt.txId,
-                    txId2,
-                    "txId should be equal"
-                );
-
-                assert.equal(
-                    receipt.ext,
-                    ext2,
-                    "ext should be equal"
-                );
-
-                return evidence.getReceiptsCount(1);
+                return evidence.getTxId.call(1, 1);
             })
             .then(value => {
                 assert.equal(
                     value,
-                    2,
-                    "count should be 2"
+                    txId2,
+                    "txId should be equal"
+                );
+                return evidence.getExt.call(1, 0);
+            })
+            .then(value => {
+                assert.equal(
+                    value,
+                    ext1,
+                    "ext err"
+                );
+
+                return evidence.getExt.call(1, 1);
+            })
+
+            .then(value => {
+                assert.equal(
+                    value,
+                    ext2,
+                    "ext error"
                 );
             })
     })

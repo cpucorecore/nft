@@ -25,8 +25,13 @@ contract Evidence {
         return tokenId2receiptsCount[tokenId];
     }
 
-    function getReceipt(uint256 tokenId, uint256 index) public view returns (Receipt memory receipts) {
+    function getTxId(uint256 tokenId, uint256 index) public view returns (bytes32) {
         require(index < tokenId2receiptsCount[tokenId], "index out of range");
-        return tokenId2receipts[tokenId][index];
+        return tokenId2receipts[tokenId][index].txId;
+    }
+
+    function getExt(uint256 tokenId, uint256 index) public view returns (string memory) {
+        require(index < tokenId2receiptsCount[tokenId], "index out of range");
+        return tokenId2receipts[tokenId][index].ext;
     }
 }
