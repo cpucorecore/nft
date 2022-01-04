@@ -1,9 +1,8 @@
-
 const Evidence = artifacts.require("Evidence");
 
 contract("Evidence", accounts => {
 
-    it("after mint 1 nft then burn 1 nft", () => {
+    it("Evidence test", () => {
         let evidence;
         let txId1 = "0xfd73d78160e163067451f8ae48109d64228d9d363fca25d004c95ed40689f725";
         let ext1 = "{\"k1\":\"v1\"}";
@@ -18,39 +17,47 @@ contract("Evidence", accounts => {
             .then(() => {
                 return evidence.saveReceipt(1, txId2, ext2);
             })
-            .then(() => evidence.getReceipts.call(1))
+            .then(() => evidence.getReceipt.call(1, 0))
             .then(value => {
-                let receipts = value.valueOf();
+                let receipt = value.valueOf();
 
                 assert.equal(
-                    receipts.length,
-                    2,
-                    "total supply not be 1"
-                );
-
-                assert.equal(
-                    receipts[0].txId,
+                    receipt.txId,
                     txId1,
                     "txId should be equal"
                 );
 
                 assert.equal(
-                    receipts[0].ext,
+                    receipt.ext,
                     ext1,
                     "ext should be equal"
-                )
+                );
+
+                return evidence.getReceipt.call(1, 1);
+            })
+            .then(value => {
+                let receipt = value.valueOf();
 
                 assert.equal(
-                    receipts[1].txId,
+                    receipt.txId,
                     txId2,
                     "txId should be equal"
                 );
 
                 assert.equal(
-                    receipts[1].ext,
+                    receipt.ext,
                     ext2,
                     "ext should be equal"
-                )
+                );
+
+                return evidence.getReceiptsCount(1);
+            })
+            .then(value => {
+                assert.equal(
+                    value,
+                    2,
+                    "count should be 2"
+                );
             })
     })
 })
