@@ -1,7 +1,11 @@
 pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
+import "./SafeMath.sol";
+
 contract Evidence {
+    using SafeMath for uint256;
+
     mapping(uint256 => string[]) private tokenId2txIds;
     mapping(uint256 => string[]) private tokenId2exts;
 
@@ -11,6 +15,15 @@ contract Evidence {
 
         string[] storage exts = tokenId2exts[tokenId];
         exts.push(ext);
+    }
+
+    function batchSaveReceipt(uint256 startTokenId, uint256 count, string memory txId, string memory ext) public {
+        uint256 tokenId = 0;
+        uint256 i = 0;
+        for (i=0;i<count;i++) {
+            tokenId = startTokenId.add(i);
+            saveReceipt(tokenId, txId, ext);
+        }
     }
 
     function getTxIds(uint256 tokenId) public view returns (string[] memory) {
