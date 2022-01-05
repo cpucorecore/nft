@@ -20,7 +20,7 @@ contract Evidence {
     function batchSaveReceipt(uint256 startTokenId, uint256 count, string memory txId, string memory ext) public {
         uint256 tokenId = 0;
         uint256 i = 0;
-        for (i=0;i<count;i++) {
+        for (i = 0; i < count; i++) {
             tokenId = startTokenId.add(i);
             saveReceipt(tokenId, txId, ext);
         }
@@ -30,8 +30,18 @@ contract Evidence {
         return tokenId2txIds[tokenId];
     }
 
+    function getTxIdByIndex(uint256 tokenId, uint256 index) public view returns (string memory) {
+        require(index < getCount(tokenId), "index out of range");
+        return tokenId2txIds[tokenId][index];
+    }
+
     function getExts(uint256 tokenId) public view returns (string[] memory) {
         return tokenId2exts[tokenId];
+    }
+
+    function getExtByIndex(uint256 tokenId, uint256 index) public view returns (string memory) {
+        require(index < getCount(tokenId), "index out of range");
+        return tokenId2exts[tokenId][index];
     }
 
     function getCount(uint256 tokenId) public view returns (uint256) {

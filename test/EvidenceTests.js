@@ -145,7 +145,24 @@ contract("Evidence", accounts => {
                     "ext should be equal"
                 );
 
-                return evidence.getCount.call(1);
+                return evidence.getExtByIndex.call(1, 0);
+            })
+            .then(value => {
+                let ext = value.valueOf();
+                assert.equal(
+                    ext,
+                    ext1,
+                    "ext should be equal"
+                )
+                return evidence.getTxIdByIndex.call(1, 0);
+            })
+            .then(value => {
+                let txId = value.valueOf();
+                assert.equal(
+                    txId,
+                    txId1,
+                    "txId should be equal"
+                )
             })
     })
 })
